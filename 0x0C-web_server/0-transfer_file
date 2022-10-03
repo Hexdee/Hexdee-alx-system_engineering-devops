@@ -1,4 +1,4 @@
-0x14-javascript-web_scraping
+#!/usr/bin/env bash
 # Transfer file `file` to a server
 
 #If number of arguments is >= 3
