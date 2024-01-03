@@ -1,21 +1,35 @@
 #!/usr/bin/python3
-"""getting data from an api
+"""
+Script to make request from an API
 """
 
-import requests
-from sys import argv
 
-if __name__ == '__main__':
-    endpoint = "https://jsonplaceholder.typicode.com"
-    userId = argv[1]
-    user = requests.get(endpoint + "users/{}".
-                        format(userId), verify=False).json()
-    todo = requests.get(endpoint + "todos?userId={}".
-                        format(userId), verify=False).json()
-    completed_tasks = []
-    for task in todo:
-        if task.get('completed') is True:
-            completed_tasks.append(task.get('title'))
-    print("Employee {} is done with tasks({}/{}):".
-          format(user.get('name'), len(completed_tasks), len(todo)))
-    print("\n".join("\t {}".format(task) for task in completed_tasks))
+def counter(completed=None):
+    """Just to count completed task"""
+
+    ct = 0
+    for arg in todo:
+        if arg.get('completed') is True:
+            ct += 1
+    return ct
+
+if __name__ == "__main__":
+    import requests
+    from sys import argv
+
+    payload = {'id': argv[1]}
+    user = requests.get('https://jsonplaceholder.typicode.com/users',
+                        params=payload).json()
+
+    payload2 = {'userId': argv[1]}
+    todo = requests.get('https://jsonplaceholder.typicode.com/todos',
+                        params=payload2).json()
+
+    print('Employee {} is done with tasks({}/{}):'.format(
+        user[0].get('name'),
+        counter(todo),
+        len(todo)))
+
+    for arg in todo:
+        if arg.get('completed') is True:
+            print("\t {}".format(arg.get('title')))
